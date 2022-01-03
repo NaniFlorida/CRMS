@@ -6,19 +6,18 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  redi
+  Link
 } from 'react-router-dom';
 
 import './App.css';
-import Dashboard from './Components/Dashboard/dashboard';
-import Customers from './Components/CustomerOparation/customers';
-import Cars from './Components/CarOperation/Cars/cars';
-import Login from './Components/Login/login';
-import Register from './Components/Register/register';
+import Cars from './Components/CarOperation/Cars';
+import Customers from './Components/CustomerOparation';
+import Dashboard from './Components/Dashboard';
+import Login from './Components/Login';
+import NotFoundPage from './Components/NotFoundPage';
+import Register from './Components/Register';
 import PrivateRoute from './Helpers/PrivateRoute';
 import Store from './Redux/store';
-import NotFoundPage from './Components/NotFoundPage/notFoundPage';
 
 
 function App() {

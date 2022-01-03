@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import NavbarComponent from '../NavbarComponent';
 
 
-function Register() {
+const Register = () =>{
     return (
         <div className="maincontainer">
          <NavbarComponent/>
