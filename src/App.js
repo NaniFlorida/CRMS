@@ -23,8 +23,7 @@ function App() {
   return (
     <Provider store={Store}>
     <div className="App">
-      {/*<RoutesMain />*/}
-      <Customers/>
+      <RoutesMain />
       <NotificationContainer/>
     </div>
     </Provider>

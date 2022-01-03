@@ -29,7 +29,7 @@ const Customers = () => {
         setIsOpen(true);
     }
     const customers = useSelector(state => state.Customers);
-    const dispatch = useDispatch;
+    const dispatch = useDispatch();
 
 
     const afterOpenModal = () => {
