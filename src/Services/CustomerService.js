@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const CustomerService ={
 
-    GetCustomer:async() =>{
-        return await  axios.get('http://localhost:5001/customers');
+    GetCustomer:async(pageSize = 10,pageNumber =1) =>{
+        return await  axios.get(`http://localhost:5001/customers?_limit=${pageSize}&_page=${pageNumber}&_order=desc&_sort=id`);
     },
     AddCustomer:async (customer) => {
        return await axios.post(`http://localhost:5001/customers`,customer);

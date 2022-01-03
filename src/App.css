@@ -137,3 +137,19 @@ main {
 .register .btnregister{
   margin-top:5px;
 }
+
+.table-bottom {
+  display: flex;
+  margin-right: 26px;
+  margin-top: 40px;
+  justify-content: flex-end;
+  
+}
+
+.table-bottom .left-arrow {
+  margin:0 10px;
+}
+
+.table-bottom .right-arrow {
+  margin:0 10px;
+}

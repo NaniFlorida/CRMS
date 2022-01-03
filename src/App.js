@@ -6,7 +6,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  redi
 } from 'react-router-dom';
 
 import './App.css';
@@ -17,15 +18,16 @@ import Login from './Components/Login/login';
 import Register from './Components/Register/register';
 import PrivateRoute from './Helpers/PrivateRoute';
 import Store from './Redux/store';
+import NotFoundPage from './Components/NotFoundPage/notFoundPage';
 
 
 function App() {
   return (
     <Provider store={Store}>
-    <div className="App">
-      <RoutesMain />
-      <NotificationContainer/>
-    </div>
+      <div className="App">
+        <RoutesMain />
+        <NotificationContainer />
+      </div>
     </Provider>
   );
 }
@@ -44,14 +46,14 @@ const RoutesMain = () => (<Router>
       </li> */}
     </ul>
     <Routes>
+      <Route path="*" element={<NotFoundPage/>} />
       <Route exact path='login' element={< Login />}></Route>
       <Route exact path='register' element={< Register />}></Route>
-      <Route exact path='dashboard' element={<PrivateRoute><Dashboard/>  </PrivateRoute>}>
-        <Route exact path='cars' element={ <PrivateRoute><Cars/> </PrivateRoute>}></Route>
-        <Route exact path='' element={ <PrivateRoute><Cars/> </PrivateRoute>}></Route>
-        <Route exact path='customers' element={ <PrivateRoute><Customers/> </PrivateRoute>}></Route>
+      <Route exact path='dashboard' element={<PrivateRoute><Dashboard />  </PrivateRoute>}>
+        <Route exact path='cars' element={<PrivateRoute><Cars /> </PrivateRoute>}></Route>
+        <Route exact path='customers' element={<PrivateRoute><Customers /> </PrivateRoute>}></Route>
       </Route>
-    </Routes>  
+    </Routes>
   </div>
 </Router>)
 

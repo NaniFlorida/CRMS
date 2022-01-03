@@ -1,14 +1,17 @@
+import { defaultShouldAsyncValidate } from "redux-form";
 import { CarService } from "../../Services/CarService"
 import { APIConstants } from "../constants/APIConstants";
 import { NotificationTypes } from "../constants/NotificationConstants";
 
 export const GetCars = () => async (dispatch) => {
 
-    const res = await CarService.GetCars().then(s => s.data);
-    dispatch({
-        type: APIConstants.CARS.GET_CARS,
-        payload: res
+     await CarService.GetCars().then(s => {
+        dispatch({
+            type: APIConstants.CARS.GET_CARS,
+            payload: s.data
+        });
     });
+    
 }
 
 export const AddCar = (car,func) => async (dispatch) => {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { GetCustomers,AddCustomers,DeleteCustomers,UpdateCustomers} from "../../Redux/actions/CustomerAction";
+import { GetCustomers, AddCustomers, DeleteCustomers, UpdateCustomers } from "../../Redux/actions/CustomerAction";
 
 
 const customStyles = {
@@ -43,9 +43,27 @@ const Customers = () => {
 
     useEffect(() => {
         dispatch(GetCustomers());
+        console.log(customers);
         return () => {
         }
     }, [0]);
+    const numPages = (count = 10) => {
+        console.log(Math.ceil(customers.count/count));
+        return Math.ceil(customers.count/count);
+    }
+    const prevPage = () => {
+
+        if (customers.pageNumber > 1) {
+            var pagenum = customers.pageNumber - 1;
+            dispatch(GetCustomers(10,pagenum));
+        }
+    }
+    const nextPage = () => {
+        if (customers.pageNumber < numPages()) {
+            var pageNum = customers.pageNumber + 1;
+            dispatch(GetCustomers(10,pageNum));
+        }
+    }
 
     return (
         <div id="customerModal">
@@ -64,17 +82,17 @@ const Customers = () => {
                 </thead>
                 <tbody>
 
-                    {customers.map((s) => (<tr>
+                    {customers.list.map((s) => (<tr>
                         <th scope="row">{s.id}</th>
-                        <td>{s.customerId}</td>
+                        <td>{s.id}</td>
                         <td>{s.customerName}</td>
                         <td>{s.custAddress}</td>
                         <td>{s.mobileNo}</td>
                         <td><button className="btn btn-outline-success btn-sm" onClick={() => openModal('UPDATE', s)}>
-                        <i className="fas fa-pencil-alt fa-sm"></i></button>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => openModal('DELETE', s)}>
-                        <i className="fas fa-trash-alt fa-sm"></i></button></td>
+                            <i className="fas fa-pencil-alt fa-sm"></i></button>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <button className="btn btn-outline-danger btn-sm" onClick={() => openModal('DELETE', s)}>
+                                <i className="fas fa-trash-alt fa-sm"></i></button></td>
                     </tr>)
                     )}
                 </tbody>
@@ -92,28 +110,26 @@ const Customers = () => {
                             <div className="deletepopup">Are you sure! do you want to delete the customer.</div>
                             <hr></hr>
                             <div>
-                            <button className="btn btn-outline-primary btn-sm" onClick={() => 
-                                {dispatch(DeleteCustomers(selectedObj.id,() => {setIsOpen(false)}));}}>Sure</button>
-                            <span>&nbsp;</span>
-                            <button className="btn btn-outline-danger btn-sm" onClick={() => closeModal()}>Close</button>
-                        </div>
+                                <button className="btn btn-outline-primary btn-sm" onClick={() => { dispatch(DeleteCustomers(selectedObj.id, () => { setIsOpen(false) })); }}>Sure</button>
+                                <span>&nbsp;</span>
+                                <button className="btn btn-outline-danger btn-sm" onClick={() => closeModal()}>Close</button>
+                            </div>
                         </div>
                     ) : <div className="customerModalAdd">
                         <Formik
                             initialValues={typeEffect === 'UPDATE' ? {
                                 id: selectedObj.id,
-                                customerId: selectedObj.customerId,
                                 customerName: selectedObj.customerName,
                                 custAddress: selectedObj.custAddress,
                                 mobileNo: selectedObj.mobileNo
                             }
-                                : { customerId: '', customerName: '', custAddress: '', mobileNo: '' }}
+                                : { customerName: '', custAddress: '', mobileNo: '' }}
 
                             validate={values => {
                                 const errors = {};
-                                if (!values.customerId) {
-                                    errors.customerId = 'Required';
-                                }
+                                // if (!values.customerId) {
+                                //     errors.customerId = 'Required';
+                                // }
                                 if (!values.customerName) {
                                     errors.customerName = 'Required';
                                 }
@@ -124,16 +140,17 @@ const Customers = () => {
                             }}
                             onSubmit={(values, { setSubmitting }) => {
                                 console.log(values);
+                                console.log();
                                 setTimeout(() => {
                                     if (typeEffect === 'ADD') {
-                                        dispatch(AddCustomers(values,() => {
+                                        dispatch(AddCustomers(values, () => {
                                             setIsOpen(false)
                                             setSelectedObj({});
                                         }));
 
                                     }
                                     else {
-                                        dispatch(UpdateCustomers(values,() => {
+                                        dispatch(UpdateCustomers(values, () => {
                                             setIsOpen(false);
                                             setSelectedObj({});
                                         }));
@@ -155,18 +172,6 @@ const Customers = () => {
 
                                 <form className="carform" onSubmit={handleSubmit}>
                                     <div className="form-group row">
-                                        <div className="form-group col-md-6">
-                                            <label>Customer Id</label>
-                                            <input
-                                                className="form-control"
-                                                type="text"
-                                                name="customerId"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                value={values.customerId}
-                                            />
-                                            {errors.customerId && touched.customerId && errors.customerId}
-                                        </div>
                                         <div className="form-group col-md-6">
                                             <label>Customer Name</label>
                                             <input
@@ -223,6 +228,14 @@ const Customers = () => {
                         </Formik>
                     </div>}
             </Modal>
+            <div className="table-bottom">
+            <div>
+            <span className="count">{customers.pageNumber===1? 1:customers.pageNumber*10-9}-{customers.count < (10*customers.pageNumber)?(customers.count):(10*customers.pageNumber)} of {customers.count}</span>
+            <a onClick={() => {prevPage()}} ><span className="left-arrow"><i class="fas fa-chevron-left"></i></span></a>
+            <a onClick={() => {nextPage()}}><span className="right-arrow"><i class="fas fa-chevron-right"></i></span></a>
+            </div>
+                
+            </div>
         </div>
     )
 };
