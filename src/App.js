@@ -50,6 +50,7 @@ const RoutesMain = () => (<Router>
       <Route exact path='register' element={< Register />}></Route>
       <Route exact path='dashboard' element={<PrivateRoute><Dashboard />  </PrivateRoute>}>
         <Route exact path='cars' element={<PrivateRoute><Cars /> </PrivateRoute>}></Route>
+        <Route exact path='' element={<PrivateRoute><Cars /> </PrivateRoute>}></Route>
         <Route exact path='customers' element={<PrivateRoute><Customers /> </PrivateRoute>}></Route>
       </Route>
     </Routes>
